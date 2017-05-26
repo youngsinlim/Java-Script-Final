@@ -1,9 +1,5 @@
-var x,y,teclas;
+var y,z,teclas,simbolo="";
 teclas=document.getElementsByClassName("tecla")
-
-//x = numero 1 y = numero 2 z= operador?
-//
-
 
 var Calculadora={
     init: function(){
@@ -268,63 +264,169 @@ var Calculadora={
       
     },
     
-    captura: function(valor){
-    //validaciones basicas 
-        
+    captura: function(capturaTecla){        
         var d= document.getElementById("display")
         var numero=d.innerHTML
+        var numerito=Number(numero)
         var self=this
         
-        if(valor=="on"){
-            d.innerHTML=0
+        if(document.getElementById("display").style.display=="none"){
+            document.getElementById("display").style="display:block;"
+            d.innerHTML=""
         }
-        
-        if(valor=="punto"){
-            var validarPunto=false
-            //validar punto
-            for(var i=0; i<7 ;i++){
-                if(numero.charAt(i)=="."){
-                    validarPunto=true
-                }
-            }
-            // Escribir punto si:
-            if(validarPunto){
-                d.innerHTML+=""
-            }else if(numero.length<7){
-                d.innerHTML+="."        
-            }
-        }
-        
+
         if(numero.length<=7){
-            if(Number(valor) || Number(valor)==0 ){
+            if(Number(capturaTecla) || Number(capturaTecla)==0 ){
                 if(numero.charAt(0)==0){
                     if(numero.charAt(1)=="."){
-                        d.innerHTML+=valor
+                        d.innerHTML+=capturaTecla
                     }else{
                         numero.substr(1);
-                        d.innerHTML=valor 
+                        d.innerHTML=capturaTecla 
                     }          
                 }else{
-                        d.innerHTML+=valor
+                        d.innerHTML+=capturaTecla
                 }
             }                              
         }
         
-        if(valor=="sign"){
-            num1=Number(numero)
-            self.operaciones(valor,num1)
-            alert(x)
-        }
-        
+        switch(capturaTecla){
+                case "on":
+                    d.innerHTML=0
+                    z=0
+                    break;
+                case "punto":
+                    var validarPunto=false
+                    
+                    for(var i=0; i<7 ;i++){
+                        if(numero.charAt(i)=="."){
+                            validarPunto=true
+                        }
+                    }
+                    if(validarPunto){
+                        d.innerHTML+=""
+                    }else if(numero.length<7){
+                        d.innerHTML+="."        
+                    }
+                    break;
+                case "sign":
+                    self.operaciones(capturaTecla,numerito)
+                    break;
+                case "dividido":
+                    self.operaciones(capturaTecla,numerito)
+                    break;
+                case "por":
+                    self.operaciones(capturaTecla,numerito)
+                    break;
+                case "menos":
+                    self.operaciones(capturaTecla,numerito)
+                    break;
+                case "mas":
+                    self.operaciones(capturaTecla,numerito)
+                    break;
+                case "igual":
+                    self.operaciones(capturaTecla,numerito)
+                    break;
+                case "raiz":
+                    self.operaciones(capturaTecla,numerito)    
+                    break;
+        }    
     },
     
-    operaciones: function(ope,num1){
-    // operaciones como suma, resta , multiplicacion y division 
-        alert ( ope+" "+num1)
+    operaciones: function(ope,numerito){
+        var self = this
+        var operacion=String(ope)       
+        var num=numerito    
         
-       
-        x=num1+" buena suerte "
-        return x
+        switch(operacion){
+            case "sign":
+                z=num*-1
+                this.render(z)
+                break;
+            case "dividido":
+                document.getElementById("display").style="display:none;"
+                if(simbolo=="/"){
+                    z=z/Number(document.getElementById("display").innerHTML)
+                }else{
+                    simbolo="/"
+                    z=num   
+                }  
+                break;
+            case "por":
+                document.getElementById("display").style="display:none;"
+                if(simbolo=="*"){
+                    z=z*Number(document.getElementById("display").innerHTML)
+                }else{
+                    simbolo="*"
+                    z=num   
+                }  
+                break;
+            case "menos":
+                document.getElementById("display").style="display:none;"
+                if(simbolo=="-"){
+                    z=z-Number(document.getElementById("display").innerHTML)
+                }else{
+                    simbolo="-"
+                    z=num   
+                }
+
+                break;
+            case "mas":
+                document.getElementById("display").style="display:none;"
+                if(simbolo=="+"){
+                    z=z+Number(document.getElementById("display").innerHTML)
+                }else{
+                    simbolo="+"
+                    z=num   
+                }    
+                break;
+            case "raiz":
+                z=Math.sqrt(num)  
+                this.render(z)
+                break;
+            case "igual":
+                if(simbolo=="/"){
+                    z=z/Number(document.getElementById("display").innerHTML)
+                    simbolo="=/"
+                    y=Number(document.getElementById("display").innerHTML)
+                }
+                else if(simbolo=="*"){
+                    z=z*Number(document.getElementById("display").innerHTML)
+                    simbolo="=*"
+                    y=Number(document.getElementById("display").innerHTML)
+                }
+                else if(simbolo=="-"){
+                    z=z-Number(document.getElementById("display").innerHTML)
+                    simbolo="=-"
+                    y=Number(document.getElementById("display").innerHTML)
+                }
+                else if(simbolo=="+"){
+                    z=z+Number(document.getElementById("display").innerHTML)
+                    simbolo="=+"
+                    y=Number(document.getElementById("display").innerHTML)
+                }else if(simbolo=="=+"){
+                    z=z+y
+                }else if(simbolo=="=-"){
+                    z=z-y
+                }else if(simbolo=="=*"){
+                    z=z*y
+                }else if(simbolo=="=/"){
+                    z=z/y
+                }else{
+                    this.render(z)
+                }
+                
+                this.render(z)
+                break;
+        }    
+    }, 
+    render: function(resultado){
+        resultado=String(z).substr(resultado.length,8);
+        if(resultado.length>=8){
+            document.getElementById("display").innerHTML=resultado+"+"        
+        }else{
+            document.getElementById("display").innerHTML=z        
+        }
         
     }
 }
