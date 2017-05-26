@@ -381,7 +381,7 @@ var Calculadora={
                 }    
                 break;
             case "raiz":
-                z=Math.sqrt(num)  
+                z=Math.sqrt(num)
                 this.render(z)
                 break;
             case "igual":
@@ -415,15 +415,17 @@ var Calculadora={
                 }else{
                     this.render(z)
                 }
-                
                 this.render(z)
                 break;
         }    
     }, 
     render: function(resultado){
-        resultado=String(z).substr(resultado.length,8);
+        resultado=String(z);
         if(resultado.length>=8){
-            document.getElementById("display").innerHTML=resultado+"+"        
+            if(Number(resultado)>9999999 || Number(resultado)<0.00001){
+                resultado=String(z).substr(resultado.length,5);
+                document.getElementById("display").innerHTML=Number(resultado).toExponential()
+            }      
         }else{
             document.getElementById("display").innerHTML=z        
         }
