@@ -358,7 +358,7 @@ var Calculadora={
                     z=z*Number(document.getElementById("display").innerHTML)
                 }else{
                     simbolo="*"
-                    z=num   
+                    z=num
                 }  
                 break;
             case "menos":
@@ -369,7 +369,6 @@ var Calculadora={
                     simbolo="-"
                     z=num   
                 }
-
                 break;
             case "mas":
                 document.getElementById("display").style="display:none;"
@@ -381,7 +380,7 @@ var Calculadora={
                 }    
                 break;
             case "raiz":
-                z=Math.sqrt(num)
+                z=Math.sqrt(document.getElementById("display").innerHTML)
                 this.render(z)
                 break;
             case "igual":
@@ -420,14 +419,12 @@ var Calculadora={
         }    
     }, 
     render: function(resultado){
-        resultado=String(z);
-        if(resultado.length>=8){
-            if(Number(resultado)>9999999 || Number(resultado)<0.00001){
-                resultado=String(z).substr(resultado.length,5);
-                document.getElementById("display").innerHTML=Number(resultado).toExponential()
-            }      
+        resultado=String(z).substr(resultado.length,5)
+        
+        if(resultado.length>=5){
+            document.getElementById("display").innerHTML=Number(resultado).toExponential()
         }else{
-            document.getElementById("display").innerHTML=z        
+            document.getElementById("display").innerHTML=resultado        
         }
         
     }
